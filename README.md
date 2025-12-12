@@ -24,30 +24,39 @@ Step 5:Iterate through each word in the tokenized text.<br>
 
 ```python
 import nltk
-#import wordnet
-nltk.download( 'punkt' )
+nltk.download('punkt')
+nltk.download('punkt_tab')
 nltk.download('wordnet')
+nltk.download('omw-1.4')
+nltk.download('averaged_perceptron_tagger')
+nltk.download('averaged_perceptron_tagger_eng')
 from nltk.tokenize import word_tokenize
-nltk.download( 'averaged_perceptron_tagger' )
-sentence=input ()
-# Tokenize the sentence into words
-words = word_tokenize(sentence)
-# Identify the parts of speech for each word
-pos_tags= nltk.pos_tag(words)
 from nltk.corpus import wordnet
 
-# Identify synonyms and antonyms for each word
-synonyms =[]
-antonyms =[]
-for word in words:
-	for syn in wordnet.synsets(word) :
-		for lemma in syn.lemmas():
-			synonyms . append (lemma . name( ) )
-			if lemma . antonyms():
-				antonyms . append ( lemma. antonyms ( ) [0] . name ( ) )
-# Print the synonyms and antonyms
-print ( "Synonyms : " ,set (synonyms) )
-print ( "Antonyms : " ,set(antonyms) )
+sentence = input()
+
+# POS tagging
+words = word_tokenize(sentence)
+pos_tags = nltk.pos_tag(words)
+
+# Print POS
+for w, p in pos_tags:
+    print(w, p)
+
+# Synonyms + Antonyms
+syns = set()
+ants = set()
+
+for w in words:
+    for syn in wordnet.synsets(w.lower()):
+        for lemma in syn.lemmas():
+            syns.add(lemma.name())
+            if lemma.antonyms():
+                ants.add(lemma.antonyms()[0].name())
+
+print("Synonyms:", syns)
+print("Antonyms:", ants)
+
 ```
 
 ## <H3>Output</H3>
